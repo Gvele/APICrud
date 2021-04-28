@@ -17,8 +17,8 @@ class ProductController extends Controller
     public function index()
     {
         //
-        return Product::all(); 
-        // return ["Entered"=>"index function"]; 
+        return response()->json(Product::paginate(10)); 
+      
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductController extends Controller
         ] ); 
         if($validator->fails()){
 
-            return $validator->errors();
+            return response()->json($validator->errors());
         }
         else{
 
@@ -48,10 +48,10 @@ class ProductController extends Controller
             $product->currency=$request->currency; 
             $result=$product->save(); 
             if($result){
-                return ["Result"=>"Data has been saved!"];
+                return response()->json(["Result"=>"Data has been saved!"]);
             }
             else{
-                return[ "error"=>"Something went wrong"]; 
+                return response()->json([ "error"=>"Something went wrong"]); 
             }
             
         }
@@ -67,8 +67,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
-        return Product::find($id); 
+        // 
+        $product=Product::find($id);
+        return response()->json($product); 
     }
 
     /**
@@ -91,7 +92,7 @@ class ProductController extends Controller
         ] ); 
         if($validator->fails()){
 
-            return $validator->errors();
+            return response()->json($validator->errors());
         }
         else{
 
@@ -102,10 +103,10 @@ class ProductController extends Controller
         $product->currency=$request->currency; 
         $result=$product->save(); 
         if($result){
-            return ["Result"=>"Data has been updated!"];
+            return response()->json(["Result"=>"Data has been updated!"]);
         }
         else{
-            return[ "error"=>"Something went wrong"]; 
+            return response()->json([ "error"=>"Something went wrong"]); 
         }
 
     }
@@ -124,10 +125,10 @@ class ProductController extends Controller
         $product=Product::find($id); 
         $result=$product->delete(); 
         if($result){
-            return ["Result"=>"Data has been deleted!"];
+            return response()->json(["Result"=>"Data has been deleted!"]);
         }
         else{
-            return[ "error"=>"Something went wrong"]; 
+            return response()->json([ "error"=>"Something went wrong"]); 
         }
 
 
@@ -136,7 +137,11 @@ class ProductController extends Controller
 
     public function allowedCurrency(){
 
-        return ["Currency"=>"GEL, USD, EUR"]; 
+           
+          return response()->json(["Currency"=>"GEL, USD, EUR"]); 
+        
+          
+
     }
 
 
